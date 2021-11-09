@@ -26,7 +26,7 @@ for l in fp.readlines():	#
 		
 		# Col 3 Nome do paciente
 		#reg.append('(?<=\d{3}\/\d{2}\s\d{5}\s)(.*)(?=\s+\d{3}\s(F|M)\w+\s\w+\s)')
-		reg.append('(?<=\d{5}\s)(.*)(?=\s+\d{3}\s(F|M)\w+\s\w+\s)')
+		reg.append('(?<=\d{5}\s)(.*)(?=\s+\d{3}\s(F|M)(a|e)\w+\s\w+\s)')
 		
 		# Col 4 Idade
 		reg.append('(?<=\s)(\d+)(?=\s(F|M)\w{3})')
@@ -50,7 +50,7 @@ for l in fp.readlines():	#
 		reg.append('(?<=\d{2}:\d{2}\s\w\s)(\d+)(?=\s\w+)')
 		
 		# Col 11 Medico Nome
-		reg.append('(?<=\d{6}\s)(.*)(?=\s\d{3}\s\w{3}\s)')
+		reg.append('(?<=\d{1}\s)(.*)(?=\s\d{3}\s\w{3}\s)')
 		
 		# Col 12 Convenio Codigo
 		reg.append('(?<=\s)(\d{3})(?=\s\w{3}\s)')
@@ -58,22 +58,25 @@ for l in fp.readlines():	#
 		# Col 13 Convenio Nome
 		reg.append('(?<=\s\d{3}\s)(\w{3})(?=\s)')
 		
-		
+		medico_codigo = -1
 		for i, r in enumerate(reg):	
 				
 			try:
 				o = str(re.search(r, l.strip())[0]).strip() 
-				#print(o + str(sep), end='')
-				ws.write(lin, i, o)
 
-				
-				
+				# Workaround para pegar o nome do médico, já que o código do médico não tem tamanho fixo:				
+				if i == 9:  
+					medico_codigo = o
+				elif i == 10:
+					r = '(?<=\s' + str(medico_codigo) + '\s)(.*)(?=\s\d{3}\s\w{3}\s)'					
+					o = str(re.search(r, l.strip())[0]).strip() 								
+				ws.write(lin, i, o)
+							
 			except:
 				print("#################################################################################")
 				print("#############Erro -------------> " + str(l.strip()))
 				print("Regex:" + str(r))
 				
-		#print()
 		lin+=1
 		
 fp.close()
