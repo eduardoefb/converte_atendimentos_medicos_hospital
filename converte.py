@@ -32,7 +32,7 @@ for l in fp.readlines():	#
 		reg.append('(?<=\s)(\d+)(?=\s(F|M)\w{3})')
 		
 		# Col 5 Sexo
-		reg.append('(?<=\d{3}\s)((F|M)\w{3})(?=\s\w+)')
+		reg.append('(?<=\s\d{3}\s)((F|M)\w{3})(?=\s\w+)')
 		
 		# Col 6 Cidade
 		reg.append('(?<=\s\d{3}\s(F|M)\w{3})(.*)(?=\s+\d{2}\/\d{2}\/\d{4}\s)')
