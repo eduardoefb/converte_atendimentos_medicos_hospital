@@ -19,13 +19,14 @@ for l in fp.readlines():	#
 	if re.search('\d+\/\d+\s\d+\s\w+', l):
 		reg=[]
 		# Col 1 Pront.
-		reg.append('(\d{3}\/\d{2})(?=\s\d{5}\s.+)')
+		reg.append('(\d{3}\/\d{2})(?=\s\d+\s.+)')
 				
 		# Col 2 Reg.
-		reg.append('(?<=\d{3}\/\d{2}\s)(\d{5})(?=\s\w+\s)')
+		reg.append('(?<=\d{3}\/\d{2}\s)(\d+)(?=\s\w+\s)')
 		
 		# Col 3 Nome do paciente
-		reg.append('(?<=\d{3}\/\d{2}\s\d{5}\s)(.*)(?=\s+\d{3}\s(F|M)\w+\s\w+\s)')
+		#reg.append('(?<=\d{3}\/\d{2}\s\d{5}\s)(.*)(?=\s+\d{3}\s(F|M)\w+\s\w+\s)')
+		reg.append('(?<=\d{5}\s)(.*)(?=\s+\d{3}\s(F|M)\w+\s\w+\s)')
 		
 		# Col 4 Idade
 		reg.append('(?<=\s)(\d+)(?=\s(F|M)\w{3})')
